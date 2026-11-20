@@ -3,14 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Thư gửi Ba Mẹ</title>
+<title>Thư gửi Bố</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#fbf4f1;--card:#fffaf7;--ink:#4a4150;--mute:#8d8294;--pink:#f0d3de;--blue:#d3dcf0;--green:#d7eadf;--line:#eadde0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#241f29;--card:#2e2833;--ink:#efe6ee;--mute:#a999b0;--pink:#4a3743;--blue:#363c52;--green:#344239;--line:#443b4a;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#241f29;--card:#2e2833;--ink:#efe6ee;--mute:#a999b0;--pink:#4a3743;--blue:#363c52;--green:#344239;--line:#443b4a;color-scheme:dark}
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:linear-gradient(160deg,var(--bg),var(--blue) 140%);color:var(--ink);font-family:Georgia,"Times New Roman",serif;min-height:100%;background-color:var(--bg)}
+body{background:linear-gradient(160deg,var(--bg),var(--blue) 140%);color:var(--ink);font-family:"Lora","Noto Serif","Times New Roman",Times,serif;min-height:100%;background-color:var(--bg)}
 .wrap{max-width:860px;margin:0 auto;padding:20px 16px 60px}
 header{text-align:center;padding:18px 0 8px}
 h1{font-weight:normal;font-size:1.9rem;margin:0 0 6px}
@@ -63,11 +66,11 @@ input[type=password]{width:100%;font:inherit;color:var(--ink);background:var(--b
 <body>
 <div class="wrap">
   <header>
-    <h1>🕊️ Thư gửi Ba Mẹ</h1>
+    <h1>🕊️ Thư gửi Bố</h1>
     <div id="date"></div>
     <div id="time"></div>
     <div id="tz"></div>
-    <div id="userbar" class="hide meta" style="margin-top:10px">👤 <span id="uname"></span> <button type="button" id="logout" style="padding:3px 12px;font-size:.85rem;margin-left:6px">Đăng xuất</button></div>
+    <div id="userbar" class="hide meta" style="margin-top:10px">👤 <span id="uname"></span> <button type="button" id="themeBtn" style="padding:3px 12px;font-size:.85rem;margin-left:6px">🎨 Màu sắc</button> <button type="button" id="logout" style="padding:3px 12px;font-size:.85rem;margin-left:6px">Đăng xuất</button></div>
   </header>
 
   <section id="auth" class="card auth hide">
@@ -105,17 +108,17 @@ input[type=password]{width:100%;font:inherit;color:var(--ink);background:var(--b
     <div class="picks" id="moods"></div>
     <label>Thời tiết hôm nay</label>
     <div class="picks" id="weathers"></div>
-    <label>Gửi tới</label>
+    <div style="font-size:1.15rem;margin:14px 0 4px">💌 Gửi Bố</div>
     <div class="row">
-      <button type="button" class="who">Ba</button>
-      <button type="button" class="who">Mẹ</button>
-      <button type="button" class="who">Ba và Mẹ</button>
+      
+      
+      
     </div>
-    <input type="text" id="to" placeholder="Ba / Mẹ / hoặc cách gọi riêng của con">
+    
     <label>Nội dung thư</label>
-    <textarea id="body" placeholder="Hôm nay con muốn kể với ba mẹ..."></textarea>
+    <textarea id="body" placeholder="Hôm nay con muốn kể với bố..."></textarea>
     <label>Ký tên (tuỳ chọn)</label>
-    <input type="text" id="sign" placeholder="Con của Ba Mẹ, ...">
+    <input type="text" id="sign" placeholder="Tên của con">
 
     <label>Ảnh đính kèm</label>
     <div class="row">
@@ -142,7 +145,7 @@ input[type=password]{width:100%;font:inherit;color:var(--ink);background:var(--b
   <section id="gallery" class="hide">
     <div class="card row">
       <label class="btn" style="margin:0;color:var(--ink)">➕ Tải ảnh lên<input type="file" id="galleryAdd" accept="image/*" multiple hidden></label>
-      <span class="meta">Ảnh được lưu ngay trên trình duyệt của mày.</span>
+      <span class="meta">Ảnh được lưu ngay trên thiết bị này.</span>
     </div>
     <div class="grid" id="grid"></div>
   </section>
@@ -225,7 +228,7 @@ $('#wdate').value = todayStr();
 const viDate = s => { const [y, m, d] = s.split('-'); return `ngày ${+d} tháng ${+m} năm ${y}`; };
 
 let draft = {photos: [], song: null};
-$$('.who').forEach(b => b.onclick = () => $('#to').value = b.textContent);
+
 
 $('#pickPhotos').onchange = e => {
   draft.photos.push(...e.target.files);
@@ -262,11 +265,11 @@ function renderDraft() {
 
 $('#save').onclick = async () => {
   const body = $('#body').value.trim();
-  if (!body) { $('#msg').textContent = 'Mày chưa viết gì cả.'; return; }
+  if (!body) { $('#msg').textContent = 'Chưa có nội dung để gửi.'; return; }
   const now = new Date();
   const letter = {
     id: String(now.getTime()),
-    to: $('#to').value.trim() || 'Ba Mẹ',
+    to: 'Bố',
     body,
     when: now.toISOString(),
     tz,
@@ -281,7 +284,7 @@ $('#save').onclick = async () => {
   try {
     await put('letters', letter);
     draft = {photos: [], song: null};
-    $('#body').value = ''; $('#to').value = ''; $('#sign').value = ''; $('#place').value = '';
+    $('#body').value = ''; $('#sign').value = ''; $('#place').value = '';
     $('#wdate').value = todayStr(); pick = {mood:'', weather:''};
     $$('.picks button').forEach(b => b.classList.remove('on'));
     renderDraft();
@@ -301,7 +304,7 @@ async function renderLetters() {
   if (!list.length) { box.innerHTML = '<div class="empty">Chưa có lá thư nào. Viết lá đầu tiên nhé.</div>'; return; }
   list.forEach(l => {
     const c = document.createElement('div'); c.className = 'card letter-item';
-    const h = document.createElement('h3'); h.textContent = 'Gửi ' + l.to;
+    const h = document.createElement('h3'); h.textContent = 'Gửi Bố';
     const m = document.createElement('div'); m.className = 'meta';
     m.textContent = (l.place ? l.place + ' · ' : '') + (l.date ? viDate(l.date) : fmt(l.when)) + (l.mood ? ' · ' + l.mood : '') + (l.photos.length ? ' · 📷 ' + l.photos.length : '') + (l.song ? ' · 🎵' : '');
     const p = document.createElement('div'); p.className = 'preview'; p.textContent = l.body;
@@ -320,7 +323,7 @@ function openLetter(l) {
   const right = document.createElement('div'); right.className = 'r';
   right.textContent = [l.place, l.date ? viDate(l.date) : fmt(l.when)].filter(Boolean).join(', ');
   top.append(left, right);
-  const h = document.createElement('div'); h.textContent = 'Gửi ' + l.to + ',';
+  const h = document.createElement('div'); h.textContent = 'Gửi Bố,';
   h.style.cssText = 'margin-top:22px;font-size:1.15rem';
   const b = document.createElement('div'); b.className = 'body'; b.textContent = l.body;
   paper.append(top, h, b);
@@ -430,11 +433,70 @@ $('#authGo').onclick = async () => {
   } catch (err) { msg.textContent = 'Có lỗi xảy ra, thử lại nhé.'; }
 };
 
+/* ---------- 8. Tuỳ chỉnh màu sắc ---------- */
+const PRESETS = [
+  ['Hồng đào', {bg:'#fbf1f0', card:'#fffaf8', ink:'#4a4150', accent:'#f3d2dc'}],
+  ['Xanh biển', {bg:'#eef4fb', card:'#fafcff', ink:'#34435a', accent:'#cfe0f3'}],
+  ['Lục nhạt', {bg:'#f0f7f1', card:'#fbfefb', ink:'#34493c', accent:'#cfe6d6'}],
+  ['Tím lavender', {bg:'#f3f0fb', card:'#fcfbff', ink:'#443b5c', accent:'#ddd3f2'}],
+  ['Kem nâu', {bg:'#f8f1e7', card:'#fffaf2', ink:'#4d3f33', accent:'#ead8bd'}],
+  ['Đêm', {bg:'#221f2a', card:'#2c2836', ink:'#eee6f0', accent:'#4a4160'}]
+];
+const FIELDS = [['bg', 'Màu nền'], ['card', 'Màu khung'], ['ink', 'Màu chữ'], ['accent', 'Màu nhấn']];
+const THEME_VARS = ['--bg', '--card', '--ink', '--pink', '--blue', '--green', '--line', '--mute'];
+let themeKey = '', theme = null;
+
+// Đặt màu bằng cách ghi đè các biến CSS ở :root
+function applyTheme(t) {
+  const s = document.documentElement.style;
+  if (!t) { THEME_VARS.forEach(v => s.removeProperty(v)); return; }
+  s.setProperty('--bg', t.bg); s.setProperty('--card', t.card); s.setProperty('--ink', t.ink);
+  ['--pink', '--blue', '--green'].forEach(v => s.setProperty(v, t.accent));
+  s.setProperty('--line', 'color-mix(in srgb, ' + t.ink + ' 15%, ' + t.bg + ')');
+  s.setProperty('--mute', 'color-mix(in srgb, ' + t.ink + ' 60%, ' + t.bg + ')');
+}
+function loadTheme() { try { theme = JSON.parse(localStorage.getItem(themeKey)); } catch (e) { theme = null; } applyTheme(theme); }
+function saveTheme() { try { if (theme) localStorage.setItem(themeKey, JSON.stringify(theme)); else localStorage.removeItem(themeKey); } catch (e) {} }
+
+function openTheme() {
+  const d = $('#dlg'); d.innerHTML = '';
+  const cur = () => theme || {bg: '#fbf4f1', card: '#fffaf7', ink: '#4a4150', accent: '#f0d3de'};
+  const inputs = {};
+  const sync = () => FIELDS.forEach(([k]) => { inputs[k].value = cur()[k]; });
+  const h = document.createElement('h2'); h.textContent = '🎨 Màu sắc'; h.style.fontWeight = 'normal';
+  const hint = document.createElement('div'); hint.className = 'meta'; hint.textContent = 'Chọn một bộ màu có sẵn, hoặc tự chỉnh từng màu bên dưới.';
+  const pres = document.createElement('div'); pres.className = 'picks'; pres.style.margin = '12px 0';
+  PRESETS.forEach(([name, t]) => {
+    const b = document.createElement('button'); b.type = 'button'; b.textContent = name;
+    b.style.cssText = 'font-size:.95rem;background:' + t.bg + ';color:' + t.ink + ';border-color:' + t.accent;
+    b.onclick = () => { theme = {...t}; applyTheme(theme); saveTheme(); sync(); };
+    pres.append(b);
+  });
+  const grid = document.createElement('div'); grid.className = 'row';
+  FIELDS.forEach(([k, label]) => {
+    const w = document.createElement('label'); w.style.cssText = 'display:flex;flex-direction:column;gap:4px;margin:0';
+    w.append(label);
+    const i = document.createElement('input'); i.type = 'color'; i.value = cur()[k];
+    i.style.cssText = 'width:64px;height:36px;padding:0;border:1px solid var(--line);border-radius:8px;background:none;cursor:pointer';
+    i.oninput = () => { theme = {...cur(), [k]: i.value}; applyTheme(theme); saveTheme(); };
+    inputs[k] = i; w.append(i); grid.append(w);
+  });
+  const row = document.createElement('div'); row.className = 'row'; row.style.marginTop = '16px';
+  const reset = document.createElement('button'); reset.type = 'button'; reset.textContent = 'Về mặc định';
+  reset.onclick = () => { theme = null; applyTheme(null); saveTheme(); sync(); };
+  const close = document.createElement('button'); close.type = 'button'; close.textContent = 'Xong'; close.onclick = () => d.close();
+  row.append(reset, close);
+  d.append(h, hint, pres, grid, row);
+  d.showModal();
+}
+
 async function boot() {
   const key = getSession(), u = key && readUsers()[key];
   if (!u) { $('#auth').classList.remove('hide'); return; }
   $('#uname').textContent = u.name;
   $('#userbar').classList.remove('hide');
+  themeKey = 'tbm_theme_' + key; loadTheme();
+  $('#themeBtn').onclick = openTheme;
   $('#logout').onclick = () => { clearSession(); location.reload(); };
   db = await openDB(u.dbName);
   $('#app').classList.remove('hide');
